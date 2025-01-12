@@ -25,22 +25,26 @@ export default function Login() {
       if (error) throw error
 
       router.push('/dashboard')
-    } catch (error) {
-      setError(error.message)
+    } catch (err: any) {
+      setError(err?.message || 'An error occurred during login')
     } finally {
       setLoading(false)
     }
   }
 
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
 
-    if (error) setError(error.message)
+      if (error) throw error
+    } catch (err: any) {
+      setError(err?.message || 'An error occurred during Google login')
+    }
   }
 
   return (
