@@ -4,10 +4,5 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "builds": [
-    {
-      "src": "next.config.ts",
-      "use": "@vercel/next"
-    }
-  ]
+  "outputDirectory": ".next"
 } 
