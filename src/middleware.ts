@@ -3,27 +3,35 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function middleware(req: NextRequest) {
-  try {
-    const res = NextResponse.next()
-    const supabase = createMiddlewareClient({ req, res })
-    const { data: { session } } = await supabase.auth.getSession()
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
 
-    // Handle protected routes
+  try {
+    const { data: { session }, error } = await supabase.auth.getSession()
+
+    if (error) {
+      console.error('Auth error:', error)
+      return NextResponse.redirect(new URL('/auth/login', req.url))
+    }
+
+    // For dashboard routes, require authentication
     if (req.nextUrl.pathname.startsWith('/dashboard')) {
       if (!session) {
         return NextResponse.redirect(new URL('/auth/login', req.url))
       }
     }
 
-    // Handle auth routes when already logged in
-    if (req.nextUrl.pathname.startsWith('/auth') && session) {
-      return NextResponse.redirect(new URL('/dashboard', req.url))
+    // For auth routes, redirect to dashboard if already authenticated
+    if (req.nextUrl.pathname.startsWith('/auth')) {
+      if (session) {
+        return NextResponse.redirect(new URL('/dashboard', req.url))
+      }
     }
 
     return res
   } catch (error) {
     console.error('Middleware error:', error)
-    return NextResponse.next()
+    return NextResponse.redirect(new URL('/auth/login', req.url))
   }
 }
 
