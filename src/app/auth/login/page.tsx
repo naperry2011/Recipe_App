@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
+import { AuthError } from '@supabase/supabase-js'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -25,8 +26,9 @@ export default function Login() {
       if (error) throw error
 
       router.push('/dashboard')
-    } catch (err: any) {
-      setError(err?.message || 'An error occurred during login')
+    } catch (err) {
+      const error = err as AuthError
+      setError(error?.message || 'An error occurred during login')
     } finally {
       setLoading(false)
     }
@@ -42,8 +44,9 @@ export default function Login() {
       })
 
       if (error) throw error
-    } catch (err: any) {
-      setError(err?.message || 'An error occurred during Google login')
+    } catch (err) {
+      const error = err as AuthError
+      setError(error?.message || 'An error occurred during Google login')
     }
   }
 
