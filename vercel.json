@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://siacenazctxaenuokhnr.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpYWNlbmF6Y3R4YWVudW9raG5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY2MzYzNzYsImV4cCI6MjA1MjIxMjM3Nn0.7-3HjW-k9W-OL9WZ3g17Ww-wNxdaRQoPgmCMOW914gw"
+  }
+} 
