@@ -1,6 +1,8 @@
 import { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
+  distDir: '.next',
   reactStrictMode: true,
   swcMinify: true,
   env: {
