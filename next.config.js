@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  experimental: {
+    serverActions: true,
+  },
+  images: {
+    domains: ['localhost'],
+  },
   reactStrictMode: true,
   swcMinify: true,
   env: {
