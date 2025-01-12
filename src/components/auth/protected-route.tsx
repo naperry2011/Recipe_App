@@ -1,22 +1,34 @@
 'use client'
 
-import { useAuth } from '@/lib/context/auth-context'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth()
   const router = useRouter()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/auth/login')
+    const checkAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) {
+          router.push('/auth/login')
+          return
+        }
+        setLoading(false)
+      } catch (error) {
+        console.error('Auth error:', error)
+        router.push('/auth/login')
+      }
     }
-  }, [user, loading, router])
+
+    checkAuth()
+  }, [router])
 
   if (loading) {
     return <div>Loading...</div>
   }
 
-  return user ? <>{children}</> : null
+  return <>{children}</>
 } 
