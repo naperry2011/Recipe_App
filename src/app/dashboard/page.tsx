@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase-client'
 import { User } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null)
